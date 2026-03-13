@@ -165,3 +165,65 @@ def parse_rating(rating_str: Optional[str]) -> Optional[int]:
         pass
 
     return None
+
+
+def normalize_url(url: str) -> str:
+    """
+    Normalize a URL for deduplication purposes.
+
+    - Removes trailing slashes
+    - Lowercases the domain
+    - Preserves path case sensitivity
+
+    Args:
+        url: The URL to normalize
+
+    Returns:
+        Normalized URL string
+    """
+    if not url:
+        return ""
+
+    # Remove trailing slash
+    url = url.rstrip('/')
+
+    # Parse the URL
+    parsed = urlparse(url)
+
+    # Rebuild with normalized domain
+    normalized = f"{parsed.scheme}://{parsed.netloc.lower()}{parsed.path}"
+
+    if parsed.query:
+        normalized += f"?{parsed.query}"
+
+    if parsed.fragment:
+        normalized += f"#{parsed.fragment}"
+
+    return normalized
+
+
+def deduplicate_products(products: list) -> tuple:
+    """
+    Remove duplicate products based on normalized product URL.
+
+    Args:
+        products: List of product dictionaries
+
+    Returns:
+        Tuple of (deduplicated products list, duplicate count)
+    """
+    seen_urls = set()
+    unique_products = []
+    duplicate_count = 0
+
+    for product in products:
+        url = product.get('product_url', '')
+        normalized = normalize_url(url)
+
+        if normalized and normalized not in seen_urls:
+            seen_urls.add(normalized)
+            unique_products.append(product)
+        else:
+            duplicate_count += 1
+
+    return unique_products, duplicate_count
