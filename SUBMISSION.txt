@@ -1,0 +1,74 @@
+════════════════════════════════════════════════════════════════
+  QUIZ 1 - WEB SCRAPING PROJECT SUBMISSION
+════════════════════════════════════════════════════════════════
+
+Student Name: [Your Name]
+Registration No: [Your Registration Number]
+Course: Tools & Technologies for Data Science
+Date: March 14, 2026
+
+════════════════════════════════════════════════════════════════
+  GITHUB REPOSITORY (PRIMARY SUBMISSION)
+════════════════════════════════════════════════════════════════
+
+https://github.com/MubashirKhan1122/catalog-scraper
+
+All 6 branches available:
+  ✓ main
+  ✓ dev
+  ✓ feature/catalog-navigation
+  ✓ feature/product-details
+  ✓ fix/url-resolution
+  ✓ fix/deduplication
+
+════════════════════════════════════════════════════════════════
+  HOW TO RUN
+════════════════════════════════════════════════════════════════
+
+1. Install uv:
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+
+2. Install dependencies:
+   uv sync
+
+3. Run scraper:
+   uv run python main.py
+
+4. View output:
+   data/products.csv
+   data/category_summary.csv
+
+════════════════════════════════════════════════════════════════
+  FILES INCLUDED
+════════════════════════════════════════════════════════════════
+
+✓ main.py - Entry point
+✓ scraper/crawler.py - Category/pagination navigation
+✓ scraper/parsers.py - Product data extraction
+✓ scraper/exporters.py - CSV export
+✓ scraper/utils.py - Helper functions
+✓ pyproject.toml - uv configuration
+✓ uv.lock - Dependencies
+✓ README.md - Complete documentation
+✓ data/products.csv - Sample output
+✓ data/category_summary.csv - Sample summary
+
+════════════════════════════════════════════════════════════════
+  REQUIREMENTS MET
+════════════════════════════════════════════════════════════════
+
+✓ Git branching (6 branches)
+✓ uv package manager
+✓ Beautiful Soup (no Selenium/Playwright/Scrapy)
+✓ Category & subcategory discovery
+✓ Pagination handling
+✓ Product detail extraction
+✓ All required fields
+✓ URL resolution
+✓ Deduplication
+✓ Data cleaning
+✓ Error handling
+✓ CSV exports
+✓ Documentation
+
+════════════════════════════════════════════════════════════════

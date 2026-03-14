@@ -34,9 +34,11 @@ wheels/
 *.swo
 *~
 
-# Data
-*.csv
-data/*.csv
+# Data (ignore data files but keep sample outputs for demo)
+# *.csv
+# data/*.csv
+# *.json
+# data/*.json
 
 # OS
 .DS_Store

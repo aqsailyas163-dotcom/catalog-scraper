@@ -1,6 +1,7 @@
-"""Export scraped data to CSV files."""
+"""Export scraped data to CSV and JSON files."""
 
 import csv
+import json
 from typing import List, Dict
 from collections import defaultdict
 
@@ -163,3 +164,87 @@ class DataExporter:
 
         except Exception as e:
             print(f"Error updating summary duplicates: {e}")
+
+    def export_products_json(self, products: List[Dict], filename: str = "products.json") -> None:
+        """
+        Export products to a JSON file.
+
+        Args:
+            products: List of product dictionaries
+            filename: Name of the output JSON file
+        """
+        if not products:
+            print("No products to export")
+            return
+
+        filepath = f"{self.output_dir}/{filename}"
+
+        try:
+            with open(filepath, 'w', encoding='utf-8') as jsonfile:
+                json.dump(products, jsonfile, indent=2, ensure_ascii=False)
+
+            print(f"Exported {len(products)} products to {filepath}")
+
+        except Exception as e:
+            print(f"Error exporting products to JSON: {e}")
+
+    def export_category_summary_json(self, products: List[Dict], filename: str = "category_summary.json") -> None:
+        """
+        Generate and export category summary statistics to JSON.
+
+        Args:
+            products: List of product dictionaries
+            filename: Name of the output JSON file
+        """
+        if not products:
+            print("No products to summarize")
+            return
+
+        filepath = f"{self.output_dir}/{filename}"
+
+        # Group products by subcategory
+        subcategory_data = defaultdict(list)
+
+        for product in products:
+            category = product.get('category', 'Unknown')
+            subcategory = product.get('subcategory', 'Unknown')
+            key = f"{category} > {subcategory}"
+            subcategory_data[key].append(product)
+
+        # Calculate statistics
+        summary = []
+
+        for subcategory_key, prods in subcategory_data.items():
+            # Extract prices
+            prices = [p.get('price') for p in prods if p.get('price') is not None]
+
+            # Count missing descriptions
+            missing_descriptions = sum(1 for p in prods if not p.get('description', '').strip())
+
+            # Calculate stats
+            total_products = len(prods)
+            avg_price = sum(prices) / len(prices) if prices else 0
+            min_price = min(prices) if prices else 0
+            max_price = max(prices) if prices else 0
+
+            summary.append({
+                'subcategory': subcategory_key,
+                'total_products': total_products,
+                'average_price': round(avg_price, 2),
+                'min_price': min_price,
+                'max_price': max_price,
+                'missing_descriptions': missing_descriptions,
+                'duplicates_removed': 0  # Will be updated by caller
+            })
+
+        # Sort by subcategory name
+        summary.sort(key=lambda x: x['subcategory'])
+
+        try:
+            with open(filepath, 'w', encoding='utf-8') as jsonfile:
+                json.dump(summary, jsonfile, indent=2, ensure_ascii=False)
+
+            print(f"Exported category summary to {filepath}")
+
+        except Exception as e:
+            print(f"Error exporting summary to JSON: {e}")
