@@ -1,8 +1,6 @@
 """
-Simple Web Scraper - Main Program
-This is the entry point that runs everything.
-
-For 6th semester university students - Easy to understand!
+E-Commerce Web Scraper
+Main program that scrapes product data from the website.
 """
 
 import os
@@ -22,22 +20,18 @@ def main():
     print("="*60)
     print()
 
-    # ========== CONFIGURATION ==========
-    # Website to scrape
+    # Configuration
     WEBSITE = "https://webscraper.io/test-sites/e-commerce/static"
-
-    # Folder to save data
     OUTPUT_FOLDER = "data"
 
-    # Make sure folder exists
     os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
-    # ========== STEP 1: CREATE TOOLS ==========
-    print("Setting up scraper tools...")
-    crawler = SimpleCrawler(WEBSITE)  # For finding pages
-    parser = SimpleParser(WEBSITE)    # For extracting data
-    exporter = SimpleExporter(OUTPUT_FOLDER)  # For saving files
-    print("✓ Tools ready!\n")
+    # Initialize scraper components
+    print("Setting up scraper...")
+    crawler = SimpleCrawler(WEBSITE)
+    parser = SimpleParser(WEBSITE)
+    exporter = SimpleExporter(OUTPUT_FOLDER)
+    print("✓ Ready!\n")
 
     # ========== STEP 2: FIND CATEGORIES ==========
     print("="*60)
